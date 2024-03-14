@@ -1,1 +1,56 @@
-<p>layout works!</p>
+<mat-toolbar color="primary">
+  <mat-toolbar-row>
+    <button mat-icon-button (click)="sidenav.toggle()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span class="toolbar-title">Sistema de venta</span>
+  </mat-toolbar-row>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="side" opened="true" style="width:200px;">
+    <mat-nav-list>
+      <a mat-list-item routerLink="/pages/dashboard">
+        <mat-icon mat-list-icon>dashboard</mat-icon>
+        <span mat-line>
+          DashBoard <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
+      <a mat-list-item routerLink="/pages/usuarios">
+        <mat-icon mat-list-icon>group</mat-icon>
+        <span mat-line>
+          Usuarios <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
+      <a mat-list-item routerLink="/pages/productos">
+        <mat-icon mat-list-icon>collections_bookmark</mat-icon>
+        <span mat-line>
+          Productos <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
+      <a mat-list-item routerLink="/pages/venta">
+        <mat-icon mat-list-icon>currency_exchange</mat-icon>
+        <span mat-line>
+          Venta <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
+      <a mat-list-item routerLink="/pages/historial_venta">
+        <mat-icon mat-list-icon>edit_note</mat-icon>
+        <span mat-line>
+          Historial Ventas <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
+      <a mat-list-item routerLink="/pages/reporte">
+        <mat-icon mat-list-icon>receipt</mat-icon>
+        <span mat-line>
+          Reportes <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div style="height: 90vh ;">
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
