@@ -1,0 +1,37 @@
+.body {
+  display: flex;
+  justify-content: center;
+  height: 100vh; /* Cambiado a viewport height para ocupar toda la altura de la pantalla */
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.411); /* Ajustado el color de fondo para que sea semi-transparente */
+}
+
+.loginCard {
+  max-width: 400px; /* Aumentado un poco el ancho máximo de la tarjeta */
+  margin: 2em auto;
+  text-align: center;
+  max-height: 600px;
+  background-color: #0e0d0d; /* Agregado color de fondo blanco */
+  border-radius: 10px; /* Agregado borde redondeado */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Agregada sombra ligera */
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px; /* Añadido espacio inferior */
+  background-color: #6A1B9A; /* Morado oscuro */
+  color: #ffffff; /* Texto blanco para contraste */
+  padding: 10px 0; /* Añadir relleno para mejorar el aspecto */
+  border-top-left-radius: 10px; /* Redondear esquinas superior izquierda */
+  border-top-right-radius: 10px; /* Redondear esquinas superior derecha */
+}
+
+.full-width {
+  width: 80%;
+  margin: 0 auto; /* Centrar el elemento horizontalmente */
+}
+
+/* Añadido estilo para los botones */
+.mat-raised-button {
+  margin-top: 20px; /* Espacio superior entre botones y otros elementos */
+}
