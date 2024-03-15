@@ -1,0 +1,61 @@
+<h2 mat-dialog-title>
+  <mat-icon>{{ TituloAccion === 'Agregar' ? 'add' : 'edit' }}</mat-icon>
+  {{ TituloAccion }} Usuario
+</h2>
+
+<mat-dialog-content>
+  <div class="formulario-usuario">
+    <form [formGroup]="formularioUsuario" (ngSubmit)="TituloAccion ==='Agregar' ? guardarUsuario():actualizarUsuario()">
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>account_circle</mat-icon>
+        <input matInput placeholder="Nombre completo" formControlName="nombreCompleto" required>
+        <mat-error *ngIf="formularioUsuario.get('nombreCompleto')?.invalid && formularioUsuario.get('nombreCompleto')?.touched">
+          El nombre completo es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>email</mat-icon>
+        <input matInput placeholder="Correo electrónico" formControlName="correo" required>
+        <mat-error *ngIf="formularioUsuario.get('correo')?.invalid && formularioUsuario.get('correo')?.touched">
+          El correo electrónico es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>assignment_ind</mat-icon>
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="idRol" required>
+          <mat-option *ngFor="let rol of ListaRoles" [value]="rol.idRol">{{ rol.nombre }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formularioUsuario.get('idRol')?.invalid && formularioUsuario.get('idRol')?.touched">
+          El rol es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>vpn_key</mat-icon>
+        <input matInput [type]="ocultarPassword ? 'password' : 'text'" placeholder="Clave" formControlName="clave" required>
+        <button mat-icon-button matSuffix (click)="toggleOcultarPassword()">
+          <mat-icon>{{ ocultarPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="formularioUsuario.get('clave')?.invalid && formularioUsuario.get('clave')?.touched">
+          La clave es requerida.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox class="campo-formulario" formControlName="esActivo">Activo</mat-checkbox>
+
+      <div class="botones">
+        <button mat-raised-button color="primary" type="submit" [disabled]="formularioUsuario.invalid">
+          <mat-icon>save</mat-icon>
+          {{ botonAccion }}
+        </button>
+        <button mat-raised-button color="accent" type="button" (click)="dialogRef.close()">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

@@ -1,1 +1,35 @@
-<p>usuario works!</p>
+<!-- Botón para agregar un nuevo usuario -->
+<button mat-raised-button color="primary" (click)="abrirModalAgregarUsuario()">Agregar Usuario</button>
+
+<!-- Tabla para mostrar la lista de usuarios -->
+<mat-table [dataSource]="datalistasUsuarios" matSort>
+
+  <!-- Columnas de la tabla -->
+  <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ getColumnDisplayName(column) }} </mat-header-cell>
+    <mat-cell *matCellDef="let usuario">
+      <ng-container *ngIf="column !== 'acciones'; else accionesTemplate">
+        {{ usuario[column] }}
+      </ng-container>
+      <ng-template #accionesTemplate>
+        <!-- Acciones -->
+        <button mat-icon-button (click)="abrirModalEditarUsuario(usuario)" matTooltip="Editar">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="eliminarUsuario(usuario)" matTooltip="Eliminar">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-template>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Encabezado de la tabla -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <!-- Fila de datos de la tabla -->
+  <mat-row *matRowDef="let usuario; columns: displayedColumns;"></mat-row>
+
+</mat-table>
+
+<!-- Paginador para la tabla -->
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>

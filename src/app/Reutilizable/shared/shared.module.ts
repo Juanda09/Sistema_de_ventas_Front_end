@@ -23,7 +23,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MomentDateModule } from '@angular/material-moment-adapter';
-
+import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [],
   imports: [
@@ -34,6 +34,7 @@ import { MomentDateModule } from '@angular/material-moment-adapter';
     HttpClientModule,
     MatCardModule,
     MatInputModule,
+    MatCheckboxModule,
     MatSelectModule,
     MatProgressBarModule,
     MatProgressSpinnerModule,
