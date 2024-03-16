@@ -1,0 +1,58 @@
+<h2 mat-dialog-title>
+  <mat-icon>{{ TituloAccion === 'Agregar' ? 'add' : 'edit' }}</mat-icon>
+  {{ TituloAccion }} Producto
+</h2>
+
+<mat-dialog-content>
+  <div class="formulario-producto">
+    <form [formGroup]="formularioProducto" (ngSubmit)="TituloAccion === 'Agregar' ? guardarProducto() : actualizarProducto()">
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>description</mat-icon>
+        <input matInput placeholder="Nombre del producto" formControlName="nombre" required>
+        <mat-error *ngIf="formularioProducto.get('nombre')?.invalid && formularioProducto.get('nombre')?.touched">
+          El nombre del producto es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>category</mat-icon>
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="idCategoria" required>
+          <mat-option *ngFor="let categoria of ListaCategorias" [value]="categoria.idCategoria">{{ categoria.nombre }}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="formularioProducto.get('idCategoria')?.invalid && formularioProducto.get('idCategoria')?.touched">
+          La categoría es requerida.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>storage</mat-icon>
+        <input matInput placeholder="Stock" formControlName="stock" required>
+        <mat-error *ngIf="formularioProducto.get('stock')?.invalid && formularioProducto.get('stock')?.touched">
+          El stock es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field class="campo-formulario">
+        <mat-icon matPrefix>attach_money</mat-icon>
+        <input matInput placeholder="Precio" formControlName="precio" required>
+        <mat-error *ngIf="formularioProducto.get('precio')?.invalid && formularioProducto.get('precio')?.touched">
+          El precio es requerido.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-checkbox class="campo-formulario" formControlName="esActivo">Activo</mat-checkbox>
+
+      <div class="botones">
+        <button mat-raised-button color="primary" type="submit" [disabled]="formularioProducto.invalid">
+          <mat-icon>save</mat-icon>
+          {{ botonAccion }}
+        </button>
+        <button mat-raised-button color="accent" type="button" (click)="cerrarDialogo()">
+          <mat-icon>cancel</mat-icon>
+          Cancelar
+        </button>
+      </div>
+    </form>
+  </div>
+</mat-dialog-content>

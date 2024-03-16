@@ -1,6 +1,12 @@
 <!-- Botón para agregar un nuevo usuario -->
+<br>
 <button mat-raised-button color="primary" (click)="abrirModalAgregarUsuario()">Agregar Usuario</button>
-
+<br>
+<br>
+<mat-form-field appearance="fill">
+  <mat-label>Buscar usuario</mat-label>
+  <input matInput (keyup)="aplicarFiltro($event)" placeholder="Escribe para buscar">
+</mat-form-field>
 <!-- Tabla para mostrar la lista de usuarios -->
 <mat-table [dataSource]="datalistasUsuarios" matSort>
 

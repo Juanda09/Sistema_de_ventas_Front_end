@@ -127,5 +127,8 @@ export class UsuarioComponent implements OnInit, AfterViewInit {
         return column; // Por defecto, mostrar el nombre de la columna tal como está en los datos
     }
   }
-
+  aplicarFiltro(event: KeyboardEvent) {
+    const valor = (event.target as HTMLInputElement).value;
+    this.datalistasUsuarios.filter = valor.trim().toLowerCase();
+  }
 }

@@ -7,6 +7,7 @@ import { ReporteComponent } from './Pages/reporte/reporte.component';
 import { UsuarioComponent } from './Pages/usuario/usuario.component';
 import { VentaComponent } from './Pages/venta/venta.component';
 import { LayoutComponent } from './layout.component';
+import { CategoriaComponent } from './Pages/categoria/categoria.component';
 
 const routes: Routes = [
   {path:'', component:LayoutComponent,
@@ -14,6 +15,7 @@ const routes: Routes = [
     {path:'dashboard', component:DashBoardComponent},
     {path:'usuarios',component:UsuarioComponent},
     {path:'productos',component:ProductoComponent},
+    {path:'categorias',component:CategoriaComponent},
     {path:'venta',component:VentaComponent},
     {path:'historial_venta',component:HistorialVentaComponent},
     {path:'reporte',component:ReporteComponent},

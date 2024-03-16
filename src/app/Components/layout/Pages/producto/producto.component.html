@@ -1,1 +1,47 @@
-<p>producto works!</p>
+<div style="margin-top: 20px;">
+  <button mat-raised-button color="primary" (click)="abrirModalAgregarProducto()">Agregar Producto</button>
+</div>
+<div style=" margin-top:20px;">
+  <mat-form-field appearance="fill">
+    <mat-label>Filtrar por categoría</mat-label>
+    <mat-select [(value)]="categoriaSelecionada" (selectionChange)="aplicarFiltroPorCategoria()">
+      <mat-option value="0">Todos</mat-option>
+      <mat-option *ngFor="let categoria of ListaCategorias" [value]="categoria.idCategoria">{{ categoria.nombre}}</mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill" style="margin-left: 20px;">
+    <mat-label>Buscar producto</mat-label>
+    <input matInput (keyup)="aplicarFiltro($event)" placeholder="Escribe para buscar">
+  </mat-form-field>
+</div>
+<mat-table [dataSource]="categoriaSelecionada ? datalistasProductosFiltrados : datalistasProductos" matSort>
+
+  <!-- Columnas de la tabla -->
+  <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ getColumnDisplayName(column) }} </mat-header-cell>
+    <mat-cell *matCellDef="let producto">
+      <ng-container *ngIf="column !== 'acciones'; else accionesTemplate">
+        {{ producto[column] }}
+      </ng-container>
+      <ng-template #accionesTemplate>
+        <!-- Acciones -->
+        <button mat-icon-button (click)="abrirModalEditarProducto(producto)" matTooltip="Editar">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button mat-icon-button (click)="eliminarProducto(producto)" matTooltip="Eliminar">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </ng-template>
+    </mat-cell>
+  </ng-container>
+
+  <!-- Encabezado de la tabla -->
+  <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+
+  <!-- Fila de datos de la tabla -->
+  <mat-row *matRowDef="let producto; columns: displayedColumns;"></mat-row>
+</mat-table>
+
+<!-- Paginador para la tabla -->
+<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" showFirstLastButtons></mat-paginator>

@@ -28,6 +28,12 @@
           Productos <!-- Agregamos un espacio en blanco aquí -->
         </span>
       </a>
+      <a mat-list-item routerLink="/pages/categorias">
+        <mat-icon mat-list-icon>category</mat-icon>
+        <span mat-line>
+          Categorias <!-- Agregamos un espacio en blanco aquí -->
+        </span>
+      </a>
       <a mat-list-item routerLink="/pages/venta">
         <mat-icon mat-list-icon>currency_exchange</mat-icon>
         <span mat-line>
@@ -49,7 +55,7 @@
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
-    <div style="height: 90vh ;">
+    <div style="height: 90vh; padding-left: 30px;">
       <router-outlet></router-outlet>
     </div>
   </mat-sidenav-content>
