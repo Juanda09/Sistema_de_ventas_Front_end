@@ -1,1 +1,95 @@
-<p>historial-venta works!</p>
+<h1 style="margin: 20px 0px 0px 40px;">Historia Venta</h1>
+
+<mat-card style="margin: 20px 40px 40px 40px;">
+  <mat-card-content>
+    <form [formGroup]="formulariodeBusqueda" (ngSubmit)="buscarVentas()">
+      <div class="campos-formulario">
+        <mat-form-field>
+          <mat-label>Buscar por</mat-label>
+          <mat-select formControlName="buscarPor">
+            <mat-option *ngFor="let buscarPor of opcionesBusqueda" [value]="buscarPor.value">{{ buscarPor.descripcion }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" *ngIf="formulariodeBusqueda.value.buscarPor == 'numero'"ngClass="campos-formularios">
+          <mat-label>
+            Numero de Orden
+          </mat-label>
+          <input matInput placeholder="Numero de Orden" formControlName="numero">
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="formulariodeBusqueda.value.buscarPor == 'fecha'"ngClass="campos-formularios">
+          <input matInput placeholder="Fecha de inicio" formControlName="fechaInicio" [matDatepicker]="picker1">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field appearance="fill" *ngIf="formulariodeBusqueda.value.buscarPor == 'fecha'" ngClass="campos-formularios">
+          <input matInput placeholder="Fecha de fin" formControlName="fechaFin" [matDatepicker]="picker2">
+          <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+          <mat-datepicker #picker2></mat-datepicker>
+        </mat-form-field>
+        <br>
+        <button mat-raised-button color="primary"
+        [disabled]="formulariodeBusqueda.invalid"
+        type="submit"
+        class="boton-buscar">
+          <mat-icon>search</mat-icon> Buscar
+        </button>
+      </div>
+    </form>
+    <br>
+    <mat-divider>
+    </mat-divider>
+    <br>
+    <mat-form-field class="input-filter">
+      <mat-label>
+        Buscar
+      </mat-label>
+      <input matInput placeholder="Buscar" (keyup)="Aplicarfiltrotabla($event)">
+    </mat-form-field>
+    <div class="mat-elevation-z2" style="width:100%; overflow-x: auto; min-height: 200px;">
+      <table mat-table [dataSource]="datalistasVentas" class="mat-elevation-z8" style="min-width: 700px;">
+        <!-- Definición de las columnas -->
+        <ng-container matColumnDef="numeroDocumento">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%;">Numero de Orden</th>
+          <td mat-cell *matCellDef="let venta" style="width: 40%;">
+            {{venta.numeroDocumento}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="tipoPago">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%;">Tipo de pago</th>
+          <td mat-cell *matCellDef="let venta" style="width: 40%;">
+            {{venta.tipoPago}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="fechaRegistro">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%;">Fecha de Registro</th>
+          <td mat-cell *matCellDef="let venta" style="width: 40%;">
+            {{venta.fechaRegistro}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="totalTexto">
+          <th mat-header-cell *matHeaderCellDef style="width: 40%;">Total</th>
+          <td mat-cell *matCellDef="let venta" style="width: 40%;">
+            {{venta.totalTexto}}
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef style="width: 20%;">Acciones</th>
+          <td mat-cell *matCellDef="let venta" style="width: 20%;">
+            <button mat-icon-button (click)="abrirDetalleVenta(venta)" matTooltip="Ver detalle">
+              <mat-icon>visibility</mat-icon>
+            </button>
+          </td>
+        </ng-container>
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let venta; columns: displayedColumns;"></mat-row>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+        <tr class="mat-row" matNoDataRow>
+          <td class="mat-cell" colspan="100%">
+            No hay registros
+          </td>
+        </tr>
+      </table>
+      </div>
+  </mat-card-content>
+</mat-card>

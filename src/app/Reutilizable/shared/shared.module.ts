@@ -27,7 +27,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
+    CommonModule,
+    MatDatepickerModule
   ],
   exports: [
     ReactiveFormsModule,

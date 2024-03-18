@@ -1,0 +1,13 @@
+table
+{
+  width: 100%;
+}
+
+.campos-formularios{
+  display: flex;
+  align-items: flex-start;
+}
+.boton-buscar{
+  width: 150px;
+  margin-top: 15px;
+}

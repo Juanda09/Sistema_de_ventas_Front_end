@@ -1,12 +1,13 @@
 <div style="margin-top: 20px;">
   <button mat-raised-button color="primary" (click)="abrirModalAgregarProducto()">Agregar Producto</button>
 </div>
-<div style=" margin-top:20px;">
+
+<div style="margin-top: 20px; display: flex; align-items: center;">
   <mat-form-field appearance="fill">
     <mat-label>Filtrar por categoría</mat-label>
     <mat-select [(value)]="categoriaSelecionada" (selectionChange)="aplicarFiltroPorCategoria()">
       <mat-option value="0">Todos</mat-option>
-      <mat-option *ngFor="let categoria of ListaCategorias" [value]="categoria.idCategoria">{{ categoria.nombre}}</mat-option>
+      <mat-option *ngFor="let categoria of ListaCategorias" [value]="categoria.idCategoria">{{ categoria.nombre }}</mat-option>
     </mat-select>
   </mat-form-field>
 
@@ -15,6 +16,7 @@
     <input matInput (keyup)="aplicarFiltro($event)" placeholder="Escribe para buscar">
   </mat-form-field>
 </div>
+
 <mat-table [dataSource]="categoriaSelecionada ? datalistasProductosFiltrados : datalistasProductos" matSort>
 
   <!-- Columnas de la tabla -->

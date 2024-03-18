@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms'; // Importa FormsModule
 
 import { LayoutRoutingModule } from './layout-routing.module';
 import { DashBoardComponent } from './Pages/dash-board/dash-board.component';
@@ -12,7 +13,9 @@ import { CategoriaComponent } from './Pages/categoria/categoria.component';
 import { SharedModule } from 'src/app/Reutilizable/shared/shared.module';
 import { ModalUsuarioComponent } from './Modales/modal-usuario/modal-usuario.component';
 import { ModalProductoComponent } from './Modales/modal-producto/modal-producto.component';
-
+import { ModalCategoriaComponent } from './Modales/modal-categoria/modal-categoria.component';
+import { ModalDetalleVentaComponent } from './Modales/modal-detalle-venta/modal-detalle-venta.component';
+import { MatDatepicker, MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   declarations: [
@@ -24,12 +27,16 @@ import { ModalProductoComponent } from './Modales/modal-producto/modal-producto.
     ReporteComponent,
     CategoriaComponent,
     ModalUsuarioComponent,
-    ModalProductoComponent
+    ModalProductoComponent,
+    ModalCategoriaComponent,
+    ModalDetalleVentaComponent,
   ],
   imports: [
     CommonModule,
+    FormsModule, // Agrega FormsModule a los imports
     LayoutRoutingModule,
-    SharedModule
+    SharedModule,
+    MatDatepickerModule
   ]
 })
 export class LayoutModule { }

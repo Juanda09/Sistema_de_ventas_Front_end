@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, ViewChild } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -9,8 +9,7 @@ import { ModalProductoComponent } from '../../Modales/modal-producto/modal-produ
 import { Producto } from 'src/app/interfaces/producto';
 import { ProductoService } from 'src/app/services/producto.service';
 import { Categoria } from 'src/app/interfaces/categoria';
-import { CategoriaService } from'src/app/services/categoria.service';
-
+import { CategoriaService } from 'src/app/services/categoria.service';
 
 @Component({
   selector: 'app-producto',
@@ -20,11 +19,12 @@ import { CategoriaService } from'src/app/services/categoria.service';
 export class ProductoComponent implements OnInit, AfterViewInit {
   displayedColumns: string[] = ['nombre', 'precio', 'descripcionCategoria', 'esActivo', 'acciones'];
   datalistasProductos = new MatTableDataSource<Producto>();
-  datalistasProductosFiltrados = new MatTableDataSource<Producto>(); // Crear una instancia de MatTableDataSource para los productos filtrados
-  categoriaSelecionada!: number; // Variable para almacenar la categoría seleccionada
+  datalistasProductosFiltrados = new MatTableDataSource<Producto>();
+  categoriaSelecionada: number | undefined;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;;
-  ListaCategorias: Categoria[]=[];
+  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild('filterInput') filterInput!: ElementRef;
+  ListaCategorias: Categoria[] = [];
 
   constructor(
     private productoService: ProductoService,
@@ -40,10 +40,10 @@ export class ProductoComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.cargarProductos();
     this.cargarCategorias();
   }
-  cargarCategorias() {
+
+  cargarCategorias(): void {
     this.categoriaService.getCategorias().subscribe({
       next: (data) => {
         if (data.status) {
@@ -57,7 +57,8 @@ export class ProductoComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  cargarProductos() {
+
+  cargarProductos(): void {
     this.productoService.getProductos().subscribe({
       next: (data) => {
         if (data.status) {
@@ -71,22 +72,7 @@ export class ProductoComponent implements OnInit, AfterViewInit {
       }
     });
   }
-  getColumnDisplayName(column: string): string {
-    switch (column) {
-      case 'nombre':
-        return 'Nombre del Producto';
-      case 'precio':
-        return 'Precio';
-      case 'descripcionCategoria':
-        return 'Descripción de la Categoría';
-      case 'esActivo':
-        return 'Activo';
-      case 'acciones':
-        return 'Acciones'; // Las acciones no necesitan un nombre de columna
-      default:
-        return column; // Por defecto, mostrar el nombre de la columna tal como está en los datos
-    }
-    }
+
   private mostrarError(mensaje: string): void {
     this.snackBar.open(mensaje, 'Cerrar', { duration: 3000 });
   }
@@ -146,37 +132,67 @@ export class ProductoComponent implements OnInit, AfterViewInit {
     });
   }
 
-  aplicarFiltro(event: KeyboardEvent) {
-    const valor = (event.target as HTMLInputElement).value;
-    this.datalistasProductos.filter = valor.trim().toLowerCase();
-  }
 
-  aplicarFiltroPorCategoria(): void {
-    console.log(this.categoriaSelecionada)
-    if (this.categoriaSelecionada) {
-      const idCategoria = this.categoriaSelecionada;
-      // Llamar al servicio para filtrar los productos por la categoría seleccionada
-      this.productoService.getProductosPorCategoria(idCategoria).subscribe({
-        next: (data) => {
-          if (data.status) {
-            // Asignar los productos filtrados al dataSource de la tabla
-            this.datalistasProductosFiltrados.data = data.value;
-          } else {
-            this.mostrarError('Error al cargar productos: ' + data.msg);
-          }
-        },
-        error: (error) => {
-          this.mostrarError('Error al cargar productos: ' + error.message);
-        }
-      });
-    } else {
-      // Si no hay categoría seleccionada, mostrar todos los productos
-      this.datalistasProductosFiltrados.data = this.datalistasProductos.data;
+  getColumnDisplayName(column: string): string {
+    switch (column) {
+      case 'nombre':
+        return 'Nombre del Producto';
+      case 'precio':
+        return 'Precio';
+      case 'descripcionCategoria':
+        return 'Descripción de la Categoría';
+      case 'esActivo':
+        return 'Activo';
+      case 'acciones':
+        return 'Acciones'; // Las acciones no necesitan un nombre de columna
+      default:
+        return column; // Por defecto, mostrar el nombre de la columna tal como está en los datos
     }
-    // Aplicar paginación y ordenamiento si es necesario
-    this.datalistasProductosFiltrados.paginator = this.paginator;
-    this.datalistasProductosFiltrados.sort = this.sort;
-  }
+    }
+
+    aplicarFiltroPorCategoria(): void {
+      if (this.categoriaSelecionada) {
+        const idCategoria = this.categoriaSelecionada;
+        this.productoService.getProductosPorCategoria(idCategoria).subscribe({
+          next: (data) => {
+            if (data.status) {
+              this.datalistasProductosFiltrados.data = data.value; // Asignamos los productos filtrados
+              this.datalistasProductosFiltrados.paginator = this.paginator; // Asignamos el paginador
+              this.datalistasProductosFiltrados.sort = this.sort; // Asignamos el ordenador
+
+              // Aplicamos el filtro de texto nuevamente
+              this.aplicarFiltro(event as KeyboardEvent); // Pasamos un evento de tipo KeyboardEvent
+            } else {
+              this.mostrarError('Error al cargar productos por categoría: ' + data.msg);
+            }
+          },
+          error: (error) => {
+            this.mostrarError('Error al cargar productos por categoría: ' + error.message);
+          }
+        });
+      } else {
+        // Si no hay categoría seleccionada, cargamos todos los productos
+        this.cargarProductos();
+      }
+    }
+
+
+    aplicarFiltro(event: KeyboardEvent): void {
+      const valor = (event.target as HTMLInputElement).value.trim().toLowerCase(); // Obtenemos el valor del filtro de texto
+
+      if (this.categoriaSelecionada) {
+        // Si se ha seleccionado una categoría, aplicamos el filtro de texto en los productos filtrados
+        this.datalistasProductosFiltrados.filter = valor;
+        this.datalistasProductosFiltrados.paginator = this.paginator; // Configuramos el paginador
+        this.datalistasProductosFiltrados.sort = this.sort; // Configuramos el ordenador
+      } else {
+        // Si no se ha seleccionado una categoría, aplicamos el filtro de texto en todos los productos
+        this.datalistasProductos.filter = valor;
+        this.datalistasProductos.paginator = this.paginator; // Configuramos el paginador
+        this.datalistasProductos.sort = this.sort; // Configuramos el ordenador
+      }
+    }
+
 
 
 }
