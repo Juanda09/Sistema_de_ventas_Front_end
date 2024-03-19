@@ -15,7 +15,7 @@ export class DashBoardService {
     this.apiUrl = environment.apiUrl + 'Dashboard/';
   }
 
-  Resumen(idUsuario: number): Observable<ResponseApi> {
-    return this.http.get<ResponseApi>(`${this.apiUrl}Resumen?idUsuario=${idUsuario}`);
+  Resumen(): Observable<ResponseApi> {
+    return this.http.get<ResponseApi>(`${this.apiUrl}Resumen`);
   }
 }

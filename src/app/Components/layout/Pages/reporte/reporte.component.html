@@ -1,1 +1,33 @@
-<p>reporte works!</p>
+<h1 style="margin: 20px 0px 0px 40px;">Reporte Venta</h1>
+
+<mat-card style="margin: 20px 40px 40px 40px;">
+  <mat-card-content>
+    <form [formGroup]="formularioFiltro" (ngSubmit)="buscarVentas()">
+      <mat-form-field appearance="fill" ngClass="campos-formularios" style="width: 100%;">
+        <input matInput placeholder="Fecha de inicio" formControlName="fechaInicio" [matDatepicker]="picker1">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+      <br>
+      <mat-form-field appearance="fill" ngClass="campos-formularios" style="width: 100%;">
+        <input matInput placeholder="Fecha de fin" formControlName="fechaFin" [matDatepicker]="picker2">
+        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+        <mat-datepicker #picker2></mat-datepicker>
+      </mat-form-field>
+      <button mat-raised-button color="primary"
+      [disabled]="formularioFiltro.invalid"
+      type="submit"
+      class="boton-buscar">
+        <mat-icon>search</mat-icon> Buscar
+      </button>
+    </form>
+    <br>
+    <button mat-raised-button color="warn"
+    [disabled]="listaventaReporte.length < 1"
+    (click)="exportarExcel()"
+    type="submit">
+      <mat-icon>feed</mat-icon> Generar excel
+    </button>
+    <br>
+    </mat-card-content>
+    </mat-card>
