@@ -22,12 +22,12 @@
 
       <ng-container matColumnDef="precio">
         <th mat-header-cell *matHeaderCellDef style="width: 20%;">Precio</th>
-        <td mat-cell *matCellDef="let producto" style="width: 20%;">{{ producto.precioTexto }}</td>
+        <td mat-cell *matCellDef="let producto" style="width: 20%;">$ {{ producto.precioTexto }}</td>
       </ng-container>
 
       <ng-container matColumnDef="total">
         <th mat-header-cell *matHeaderCellDef style="width: 20%;">Total</th>
-        <td mat-cell *matCellDef="let producto" style="width: 20%;">{{ producto.totalTexto }}</td>
+        <td mat-cell *matCellDef="let producto" style="width: 20%;">$ {{ producto.totalTexto }}</td>
       </ng-container>
 
 
