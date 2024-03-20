@@ -11,6 +11,18 @@ import { UtilidadService } from 'src/app/Reutilizable/utilidad.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDatepicker } from '@angular/material/datepicker';
 import * as XLXS from "xlsx"
+
+const COLUMN_DISPLAY_NAMES: { [key: string]: string } = {
+  fechaRegistro: 'Fecha de registro',
+  numeroDocumento: 'Numero de Orden',
+  tipoPago: 'Tipo de Pago',
+  total: 'Total',
+  producto: 'Nombre del producto',
+  cantidad: 'Cantidad',
+  precio: 'Precio',
+  totalVenta: 'Total de la Venta'
+};
+
 export const MY_DATA_FORMATS = {
   parse: {
     dateInput: 'DD/MM/YYYY'
@@ -76,14 +88,39 @@ export class ReporteComponent implements OnInit, AfterViewInit {
       }
     })
   }
-  exportarExcel(){
+  exportarExcel() {
+    // Verificar si los datos contienen todas las claves definidas en COLUMN_DISPLAY_NAMES
+    const keysInData = Object.keys(this.listaventaReporte[0]); // Suponemos que al menos hay un elemento en listaventaReporte
+    const keysInDisplayName = Object.keys(COLUMN_DISPLAY_NAMES);
+
+    const missingKeys = keysInDisplayName.filter(key => !keysInData.includes(key));
+    if (missingKeys.length > 0) {
+      console.error(`Faltan las siguientes claves en los datos: ${missingKeys.join(', ')}`);
+      return; // Detener la exportación si faltan claves
+    }
+
+    // Exportar los datos a Excel
     const wb = XLXS.utils.book_new();
-    const ws = XLXS.utils.json_to_sheet(this.listaventaReporte);
-    XLXS.utils.book_append_sheet(wb, ws, "Reporte");
-    XLXS.writeFile(wb, "Reporte ventas.xlsx");
+    const ws = XLXS.utils.json_to_sheet(this.listaventaReporte.map((item: Reporte) => {
+      const newItem: any = {};
+      for (const key of Object.keys(item)) {
+        const displayName = COLUMN_DISPLAY_NAMES[key];
+        if (displayName) {
+          newItem[displayName] = item[key as keyof Reporte];
+        }
+      }
+      return newItem;
+    }));
+    XLXS.utils.book_append_sheet(wb, ws, 'Reporte');
+    XLXS.writeFile(wb, 'Reporte ventas.xlsx');
   }
+
+
+
   Aplicarfiltrotabla(event: KeyboardEvent): void {
     const valor = (event.target as HTMLInputElement).value;
     this.dataVentaReporte.filter = valor.trim().toLowerCase();
   }
+
+
 }

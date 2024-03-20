@@ -18,7 +18,7 @@
         <mat-grid-tile>
           <mat-form-field class="full-width" appearance="fill">
             <mat-label>Cantidad</mat-label>
-            <input matInput type="number" placeholder="Cantidad" formControlName="cantidad">
+            <input matInput type="number" placeholder="Cantidad" formControlName="cantidad" min="1">
           </mat-form-field>
         </mat-grid-tile>
         <mat-grid-tile>
@@ -30,7 +30,7 @@
       </mat-grid-list>
     </form>
 
-    <mat-form-field class="full-width" appearance="fill" style=" margin-left: 185px;">
+    <mat-form-field class="full-width" appearance="fill" style=" margin-left: 175px;">
       <mat-label>Tipo de pago</mat-label>
       <mat-select [(value)]="tipoPagoPorDefecto">
         <mat-option value="Efectivo">Efectivo</mat-option>

@@ -74,7 +74,11 @@ export class VentaComponent implements OnInit {
   }
 
   agregarProductoParaVenta(): void {
-    const _cantidad: number = this.formularioProductoVenta.value.cantidad;
+    let _cantidad: number = this.formularioProductoVenta.value.cantidad;
+    if (_cantidad <= 0) {
+      _cantidad = 1; // Restablecer la cantidad a 1 si es menor o igual a 0
+      this.formularioProductoVenta.patchValue({ cantidad: _cantidad }); // Actualizar el valor en el formulario
+    }
     const _precio: number = parseFloat(this.productoSeleccionado.precio);
     const _total: number = _cantidad * _precio;
     this.totalPagar += _total;
